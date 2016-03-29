@@ -2,113 +2,130 @@
 /**
  * Envato API class.
  *
- * @package Envato_Market
+ * @see https://github.com/envato/wp-envato-market/blob/master/inc/api.php
+ *
+ * @package Astoundify_ThemeForest_Updater
+ * @category API
  */
 
 /**
-	* Creates the Envato API connection.
-	*
-	* @class Envato_Market_API
-	* @version 1.0.0
-	* @since 1.0.0
-	*/
+ * Creates the Envato API connection.
+ *
+ * @class Astoundify_Envato_Market_API
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 class Astoundify_Envato_Market_API {
 
 	/**
-		* The single class instance.
-		*
-		* @since 1.0.0
-		* @access private
-		*
-		* @var object
-		*/
+	 * The single class instance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @var object
+ 	 */
 	private static $_instance = null;
 
 	/**
-		* The Envato API personal token.
-		*
-		* @since 1.0.0
-		*
-		* @var string
-		*/
+	 * The Envato API personal token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $token;
 
 	/**
-		* Main Envato_Market_API Instance
-		*
-		* Ensures only one instance of this class exists in memory at any one time.
-		*
-		* @see Envato_Market_API()
-		* @uses Envato_Market_API::init_globals() Setup class globals.
-		* @uses Envato_Market_API::init_actions() Setup hooks and actions.
-		*
-		* @since 1.0.0
-		* @static
-		* @return object The one true Envato_Market_API.
-		* @codeCoverageIgnore
-		*/
+	 * Main Envato_Market_API Instance
+	 *
+	 * Ensures only one instance of this class exists in memory at any one time.
+	 *
+	 * @see Astoundify_Envato_Market_API()
+	 * @uses Astoundify_Envato_Market_API::init_globals() Setup class globals.
+	 * @uses Astoundify_Envato_Market_API::init_actions() Setup hooks and actions.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 * @return object The one true Astoundify_Envato_Market_API.
+	 * @codeCoverageIgnore
+	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
+
 			self::$_instance->init_globals();
+			self::$_instance->init_actions();
 		}
+
 		return self::$_instance;
 	}
 
 	/**
-		* A dummy constructor to prevent this class from being loaded more than once.
-		*
-		* @see Envato_Market_API::instance()
-		*
-		* @since 1.0.0
-		* @access private
-		* @codeCoverageIgnore
-		*/
+	 * A dummy constructor to prevent this class from being loaded more than once.
+	 *
+	 * @see Envato_Market_API::instance()
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @codeCoverageIgnore
+	 */
 	private function __construct() {
 		/* We do nothing here! */
 	}
 
 	/**
-		* You cannot clone this class.
-		*
-		* @since 1.0.0
-		* @codeCoverageIgnore
-		*/
+	 * You cannot clone this class.
+	 *
+	 * @since 1.0.0
+	 * @codeCoverageIgnore
+	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'envato-market' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'astoundify-themeforest-updater' ), '1.0.0' );
 	}
 
 	/**
-		* You cannot unserialize instances of this class.
-		*
-		* @since 1.0.0
-		* @codeCoverageIgnore
-		*/
+	 * You cannot unserialize instances of this class.
+	 *
+	 * @since 1.0.0
+	 * @codeCoverageIgnore
+	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'envato-market' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'astoundify-themeforest-updater' ), '1.0.0' );
 	}
 
 	/**
-		* Setup the class globals.
-		*
-		* @since 1.0.0
-		* @access private
-		* @codeCoverageIgnore
-		*/
+	 * Setup the class globals.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @codeCoverageIgnore
+	 */
 	private function init_globals() {
+		$this->token = '';
 	}
 
 	/**
-		* Query the Envato API.
-		*
-		* @uses wp_remote_get() To perform an HTTP request.
-		*
-		* @since 1.0.0
-		*
-		* @param  string $url API request URL, including the request method, parameters, & file type.
-		* @param  array  $args The arguments passed to `wp_remote_get`.
-		* @return array  The HTTP response.
-		*/
+	 * Add hooks and filters.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @codeCoverageIgnore
+	 */
+	private function init_actions() {
+	}
+
+	/**
+	 * Query the Envato API.
+	 *
+	 * @uses wp_remote_get() To perform an HTTP request.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $url API request URL, including the request method, parameters, & file type.
+	 * @param  array  $args The arguments passed to `wp_remote_get`.
+	 * @return array  The HTTP response.
+	 */
 	public function request( $url, $args = array() ) {
 		$defaults = array(
 			'headers' => array(
@@ -116,11 +133,13 @@ class Astoundify_Envato_Market_API {
 			),
 			'timeout' => 20,
 		);
+
 		$args = wp_parse_args( $args, $defaults );
 
 		$token = trim( str_replace( 'Bearer', '', $args['headers']['Authorization'] ) );
+
 		if ( empty( $token ) ) {
-			return new WP_Error( 'api_token_error', __( 'An API token is required.', 'envato-market' ) );
+			return new WP_Error( 'api_token_error', __( 'An API token is required.', 'astoundify-themeforest-updater' ) );
 		}
 
 		// Make an API request.
@@ -133,24 +152,26 @@ class Astoundify_Envato_Market_API {
 		if ( 200 !== $response_code && ! empty( $response_message ) ) {
 			return new WP_Error( $response_code, $response_message );
 		} elseif ( 200 !== $response_code ) {
-			return new WP_Error( $response_code, __( 'An unknown API error occurred.', 'envato-market' ) );
+			return new WP_Error( $response_code, __( 'An unknown API error occurred.', 'astoundify-themeforest-updater' ) );
 		} else {
 			$return = json_decode( wp_remote_retrieve_body( $response ), true );
+
 			if ( null === $return ) {
-				return new WP_Error( 'api_error', __( 'An unknown API error occurred.', 'envato-market' ) );
+				return new WP_Error( 'api_error', __( 'An unknown API error occurred.', 'astoundify-themeforest-updater' ) );
 			}
+
 			return $return;
 		}
 	}
 
 	/**
-		* Deferred item download URL.
-		*
-		* @since 1.0.0
-		*
-		* @param int $id The item ID.
-		* @return string.
-		*/
+	 * Deferred item download URL.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $id The item ID.
+	 * @return string.
+	 */
 	public function deferred_download( $id ) {
 		if ( empty( $id ) ) {
 			return '';
@@ -160,18 +181,21 @@ class Astoundify_Envato_Market_API {
 			'deferred_download' => true,
 			'item_id' => $id,
 		);
-		return add_query_arg( $args, esc_url( admin_url( 'themes.php' ) ) );
+
+		$page = admin_url( 'themes.php' );
+
+		return add_query_arg( $args, esc_url( $page ) );
 	}
 
 	/**
-		* Get the item download.
-		*
-		* @since 1.0.0
-		*
-		* @param  int   $id The item ID.
-		* @param  array $args The arguments passed to `wp_remote_get`.
-		* @return bool|array The HTTP response.
-		*/
+	 * Get the item download.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  int   $id The item ID.
+	 * @param  array $args The arguments passed to `wp_remote_get`.
+	 * @return bool|array The HTTP response.
+	 */
 	public function download( $id, $args = array() ) {
 		if ( empty( $id ) ) {
 			return false;
@@ -197,14 +221,14 @@ class Astoundify_Envato_Market_API {
 	}
 
 	/**
-		* Get an item by ID and type.
-		*
-		* @since 1.0.0
-		*
-		* @param  int   $id The item ID.
-		* @param  array $args The arguments passed to `wp_remote_get`.
-		* @return array The HTTP response.
-		*/
+	 * Get an item by ID and type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  int   $id The item ID.
+	 * @param  array $args The arguments passed to `wp_remote_get`.
+	 * @return array The HTTP response.
+	 */
 	public function item( $id, $args = array() ) {
 		$url = 'https://api.envato.com/v2/market/catalog/item?id=' . $id;
 		$response = $this->request( $url, $args );
@@ -225,13 +249,13 @@ class Astoundify_Envato_Market_API {
 	}
 
 	/**
-		* Get the list of available themes.
-		*
-		* @since 1.0.0
-		*
-		* @param  array $args The arguments passed to `wp_remote_get`.
-		* @return array The HTTP response.
-		*/
+	 * Get the list of available themes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $args The arguments passed to `wp_remote_get`.
+	 * @return array The HTTP response.
+	 */
 	public function themes( $args = array() ) {
 		$themes = array();
 
@@ -243,20 +267,22 @@ class Astoundify_Envato_Market_API {
 		}
 
 		foreach ( $response['results'] as $theme ) {
-			$themes[] = $this->normalize_theme( $theme['item'] );
+			$normalized = $this->normalize_theme( $theme[ 'item' ] );
+
+			$themes[ sanitize_title( $normalized[ 'name' ] ) ] = $normalized;
 		}
 
 		return $themes;
 	}
 
 	/**
-		* Normalize a theme.
-		*
-		* @since 1.0.0
-		*
-		* @param  array $theme An array of API request values.
-		* @return array A normalized array of values.
-		*/
+	 * Normalize a theme.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $theme An array of API request values.
+	 * @return array A normalized array of values.
+	 */
 	public function normalize_theme( $theme ) {
 		return array(
 			'id' => $theme['id'],
@@ -272,86 +298,13 @@ class Astoundify_Envato_Market_API {
 	}
 
 	/**
-		* Get the list of available plugins.
-		*
-		* @since 1.0.0
-		*
-		* @param  array $args The arguments passed to `wp_remote_get`.
-		* @return array The HTTP response.
-		*/
-	public function plugins( $args = array() ) {
-		$plugins = array();
-
-		$url = 'https://api.envato.com/v2/market/buyer/list-purchases?filter_by=wordpress-plugins';
-		$response = $this->request( $url, $args );
-
-		if ( is_wp_error( $response ) || empty( $response ) || empty( $response['results'] ) ) {
-			return $plugins;
-		}
-
-		foreach ( $response['results'] as $plugin ) {
-			$plugins[] = $this->normalize_plugin( $plugin['item'] );
-		}
-
-		return $plugins;
-	}
-
-	/**
-		* Normalize a plugin.
-		*
-		* @since 1.0.0
-		*
-		* @param  array $plugin An array of API request values.
-		* @return array A normalized array of values.
-		*/
-	public function normalize_plugin( $plugin ) {
-		$requires = null;
-		$tested = null;
-		$versions = array();
-
-		// Set the required and tested WordPress version numbers.
-		foreach ( $plugin['attributes'] as $k => $v ) {
-			if ( 'compatible-software' === $v['name'] ) {
-				foreach ( $v['value'] as $version ) {
-					$versions[] = str_replace( 'WordPress ', '', trim( $version ) );
-				}
-				if ( ! empty( $versions ) ) {
-					$requires = $versions[ count( $versions ) - 1 ];
-					$tested = $versions[0];
-				}
-				break;
-			}
-		}
-
-		// This may not exist.
-		$has_landscape = ! empty( $plugin['previews']['landscape_preview']['landscape_url'] );
-
-		return array(
-			'id' => $plugin['id'],
-			'name' => $plugin['wordpress_plugin_metadata']['plugin_name'],
-			'author' => $plugin['wordpress_plugin_metadata']['author'],
-			'version' => $plugin['wordpress_plugin_metadata']['version'],
-			'description' => self::remove_non_unicode( $plugin['wordpress_plugin_metadata']['description'] ),
-			'url' => $plugin['url'],
-			'author_url' => $plugin['author_url'],
-			'thumbnail_url' => $plugin['thumbnail_url'],
-			'landscape_url' => ( $has_landscape ? $plugin['previews']['landscape_preview']['landscape_url'] : '' ),
-			'requires' => $requires,
-			'tested' => $tested,
-			'number_of_sales' => $plugin['number_of_sales'],
-			'updated_at' => $plugin['updated_at'],
-			'rating' => $plugin['rating'],
-		);
-	}
-
-	/**
-		* Remove all non unicode characters in a string
-		*
-		* @since 1.0.0
-		*
-		* @param string $retval The string to fix.
-		* @return string
-		*/
+	 * Remove all non unicode characters in a string
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $retval The string to fix.
+	 * @return string
+	 */
 	static private function remove_non_unicode( $retval ) {
 		return preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $retval );
 	}

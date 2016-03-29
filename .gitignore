@@ -1,3 +1,4 @@
 config.php
 .DS_Store
 class-envato-api-passthrough.php
+.token
