@@ -117,7 +117,7 @@ class Astoundify_Theme_Updater {
 				$transient->response[ $slug ] = array(
 					'theme'       => $slug,
 					'new_version' => $purchased_version,
-					'url'         => $items[ 'purchased' ][ 'url' ],
+					'url'         => $items[ 'installed' ]->get_template_directory_uri() . '/readme.txt',
 					'package'     => $api->deferred_download( $items[ 'purchased' ][ 'id' ] ),
 				);
 			}

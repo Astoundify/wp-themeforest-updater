@@ -102,7 +102,7 @@ class Astoundify_Envato_Market_API {
 	 * @codeCoverageIgnore
 	 */
 	private function init_globals() {
-		$this->token = '';
+		$this->token = apply_filters( 'astoundify_themeforest_updater', null );
 	}
 
 	/**
@@ -213,10 +213,6 @@ class Astoundify_Envato_Market_API {
 			return $response['wordpress_theme'];
 		}
 
-		if ( ! empty( $response['wordpress_plugin'] ) ) {
-			return $response['wordpress_plugin'];
-		}
-
 		return false;
 	}
 
@@ -239,10 +235,6 @@ class Astoundify_Envato_Market_API {
 
 		if ( ! empty( $response['wordpress_theme_metadata'] ) ) {
 			return $this->normalize_theme( $response );
-		}
-
-		if ( ! empty( $response['wordpress_plugin_metadata'] ) ) {
-			return $this->normalize_plugin( $response );
 		}
 
 		return false;
