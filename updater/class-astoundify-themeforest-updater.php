@@ -88,8 +88,8 @@ class Astoundify_ThemeForest_Updater {
 	 * @codeCoverageIgnore
 	 */
 	public static function includes() {
-		require_once( dirname( __FILE__ ) . '/includes/class-envato-market-api.php' );
-		require_once( dirname( __FILE__ ) . '/includes/class-theme-updater.php' );
+		require_once( dirname( __FILE__ ) . '/class-envato-market-api.php' );
+		require_once( dirname( __FILE__ ) . '/class-theme-updater.php' );
 	}
 
 }

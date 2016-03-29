@@ -88,6 +88,7 @@ class Astoundify_Theme_Updater {
 	public static function delete_theme_update_transient() {
 		delete_transient( 'atu_installed_themes' );
 		delete_transient( 'atu_purchased_themes' );
+		delete_transient( 'update_themes' );
 	}
 
 	/**

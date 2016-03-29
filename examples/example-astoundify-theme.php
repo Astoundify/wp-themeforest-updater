@@ -5,6 +5,9 @@
  * Create a step in the setup guide and saves the token.
  */
 
+// update this to where you add the updater class
+require_once( dirname( __FILE__ ) . '/../updater/class-astoundify-themeforest-updater.php' );
+
 class Example_Astoundify_Theme_Updates {
 
 	public $api;
