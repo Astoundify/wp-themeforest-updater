@@ -81,7 +81,7 @@ class Astoundify_Envato_Market_API {
 	 * @codeCoverageIgnore
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'astoundify-themeforest-updater' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html( self::$strings[ 'cheating' ] ), '1.0.0' );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Astoundify_Envato_Market_API {
 	 * @codeCoverageIgnore
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'astoundify-themeforest-updater' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html( $this->strings[ 'cheating' ] ), '1.0.0' );
 	}
 
 	/**
@@ -102,6 +102,7 @@ class Astoundify_Envato_Market_API {
 	 * @codeCoverageIgnore
 	 */
 	private function init_globals() {
+		$this->strings = Astoundify_ThemeForest_Updater::$strings;
 		$this->token = apply_filters( 'astoundify_themeforest_updater', null );
 	}
 
@@ -139,7 +140,7 @@ class Astoundify_Envato_Market_API {
 		$token = trim( str_replace( 'Bearer', '', $args['headers']['Authorization'] ) );
 
 		if ( empty( $token ) ) {
-			return new WP_Error( 'api_token_error', __( 'An API token is required.', 'astoundify-themeforest-updater' ) );
+			return new WP_Error( 'api_token_error', $this->strings[ 'no-token' ] );
 		}
 
 		// Make an API request.
@@ -152,12 +153,12 @@ class Astoundify_Envato_Market_API {
 		if ( 200 !== $response_code && ! empty( $response_message ) ) {
 			return new WP_Error( $response_code, $response_message );
 		} elseif ( 200 !== $response_code ) {
-			return new WP_Error( $response_code, __( 'An unknown API error occurred.', 'astoundify-themeforest-updater' ) );
+			return new WP_Error( $response_code, $this->strings[ 'api-error' ] );
 		} else {
 			$return = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( null === $return ) {
-				return new WP_Error( 'api_error', __( 'An unknown API error occurred.', 'astoundify-themeforest-updater' ) );
+				return new WP_Error( 'api_error', $this->strings[ 'api-error' ] );
 			}
 
 			return $return;
@@ -301,3 +302,5 @@ class Astoundify_Envato_Market_API {
 		return preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $retval );
 	}
 }
+
+Astoundify_Envato_Market_API::instance();

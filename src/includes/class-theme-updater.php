@@ -75,6 +75,8 @@ class Astoundify_Theme_Updater {
 	 * @codeCoverageIgnore
 	 */
 	private static function init_actions() {
+		$api = Astoundify_Envato_Market_API::instance();
+		var_dump( $api->token );
 		add_filter( 'site_transient_update_themes', array( __CLASS__, 'check_theme_updates' ) );
 		add_filter( 'delete_site_transient_update_themes', array( __CLASS__, 'delete_theme_update_transient' ) );
 		add_action( 'load-update-core.php', array( __CLASS__, 'delete_theme_update_transient' ) );
@@ -106,6 +108,12 @@ class Astoundify_Theme_Updater {
 		}
 
 		$api = Astoundify_Envato_Market_API::instance();
+
+		if ( ! $api->token ) {
+			self::delete_theme_update_transient();
+
+			return $transient;
+		}
 
 		$installed_and_purchased = self::get_installed_and_purchased_themes();
 
@@ -163,13 +171,20 @@ class Astoundify_Theme_Updater {
 			return self::$purchased_themes;
 		}
 
+		$api = Astoundify_Envato_Market_API::instance();
+
+		if ( ! $api->token ) {
+			self::delete_theme_update_transient();
+
+			return;
+		}
+
 		// @see https://core.trac.wordpress.org/ticket/15058
 		$transient = 'atu_purchased_themes';
 
 		self::$purchased_themes = get_transient( $transient );
 
 		if ( false === self::$purchased_themes ) {
-			$api = Astoundify_Envato_Market_API::instance();
 			self::$purchased_themes = $api->themes();
 
 			set_transient( $transient, self::$purchased_themes, DAY_IN_SECONDS );

@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'Astoundify_ThemeForest_Updater' ) ) :
 /**
  * @package Astoundify_ThemeForest_Updater
  */
@@ -13,6 +14,16 @@ class Astoundify_ThemeForest_Updater {
 	 * @var object
  	 */
 	private static $_instance = null;
+
+	/**
+	 * The strings used for any output in the drop-ins.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @var array
+	 */
+	public static $strings = array();
 
 	/**
 	 * Main Envato_Market_API Instance
@@ -48,6 +59,25 @@ class Astoundify_ThemeForest_Updater {
 	}
 
 	/**
+	 * Set the strings to be used inside the other drop in files.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return self::$strings
+	 */
+	public static function set_strings( $strings ) {
+		$defaults = array(
+			'cheating' => 'Cheating?',
+			'no-token' => 'An API token is required.',
+			'api-error' => 'API error.'
+		);
+
+		$strings = wp_parse_args( $strings, $defaults );
+
+		self::$strings = $strings;
+	}
+
+	/**
 	 * Include necessary files.
 	 *
 	 * @since 1.0.0
@@ -61,4 +91,4 @@ class Astoundify_ThemeForest_Updater {
 	}
 
 }
-add_action( 'plugins_loaded', array( 'Astoundify_ThemeForest_Updater', 'instance' ), 999 );
+endif;

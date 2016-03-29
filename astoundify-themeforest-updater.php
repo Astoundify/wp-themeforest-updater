@@ -9,3 +9,4 @@
  */
 
 include_once( dirname( __FILE__ ) . '/src/class-astoundify-themeforest-updater.php' );
+include_once( dirname( __FILE__ ) . '/examples/example-astoundify-theme.php' );
