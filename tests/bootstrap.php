@@ -33,7 +33,6 @@ class Astoundify_ThemeForest_Updater_Unit_Tests_Bootstrap {
 		tests_add_filter( 'muplugins_loaded', array( $this, 'load_plugin' ) );
 
 		// install plugin
-		tests_add_filter( 'setup_theme', array( $this, 'install_plugin' ) );
 		tests_add_filter( 'setup_theme', array( $this, 'setup_token' ) );
 
 		// load the WP testing environment
@@ -47,14 +46,7 @@ class Astoundify_ThemeForest_Updater_Unit_Tests_Bootstrap {
 	 * Load plugin
 	 */
 	public function load_plugin() {
-		require_once( $this->plugin_dir . '/themeforest-updater.php' );
-	}
-
-	/**
-	 * Install plugin
-	 */
-	public function install_plugin() {
-		echo "Installing Plugin..." . PHP_EOL;
+		require_once( $this->plugin_dir . '/astoundify-themeforest-updater.php' );
 	}
 
 	/**

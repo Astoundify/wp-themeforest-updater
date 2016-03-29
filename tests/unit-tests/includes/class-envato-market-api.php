@@ -126,22 +126,6 @@ class Tests_Astoundify_Envato_Market_API extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Builds a plugin download url
-	 */
-	function test_download_plugin() {
-		$mock = $this->getMockBuilder( 'Astoundify_Envato_Market_API' )
-			->setMethods( array( 'request' ) )
-			->disableOriginalConstructor()
-			->getMock();
-
-		$mock->expects( $this->any() )
-			->method( 'request' )
-			->will( $this->returnValue( array( 'wordpress_plugin' => 'http://sample.org/download/12345.zip' ) ) );
-
-		$this->assertEquals( 'http://sample.org/download/12345.zip', $mock->download( 12345 ) );
-	}
-
-	/**
 	 * @see Envato_Market_API::item()
 	 */
 	function test_item_false_from_error() {
