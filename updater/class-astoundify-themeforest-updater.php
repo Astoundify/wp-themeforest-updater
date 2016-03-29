@@ -65,18 +65,34 @@ class Astoundify_ThemeForest_Updater {
 	 *
 	 * @return self::$strings
 	 */
-	public static function set_strings( $strings ) {
+	public static function set_strings( $strings = array() ) {
 		$defaults = array(
 			'cheating' => 'Cheating?',
 			'no-token' => 'An API token is required.',
 			'api-error' => 'API error.',
 			'api-connected' => 'Connected',
-			'api-disconnected' => 'Disconnected'
+			'api-disconnected' => 'Disconnected',
 		);
 
 		$strings = wp_parse_args( $strings, $defaults );
 
 		self::$strings = $strings;
+	}
+
+	/**
+	 * Get strings.
+	 *
+	 * Set the defaults if none are available.
+	 *
+	 * @since 1.0.0
+	 * @return self::$strings
+	 */
+	public static function get_strings() {
+		if ( empty( self::$strings ) ) {
+			self::set_strings();
+		}
+
+		return self::$strings;
 	}
 
 	/**

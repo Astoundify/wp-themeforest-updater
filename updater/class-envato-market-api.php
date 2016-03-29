@@ -103,7 +103,7 @@ class Astoundify_Envato_Market_API {
 	 * @codeCoverageIgnore
 	 */
 	private function init_globals() {
-		$this->strings = Astoundify_ThemeForest_Updater::$strings;
+		$this->strings = Astoundify_ThemeForest_Updater::get_strings();
 		$this->token = apply_filters( 'astoundify_themeforest_updater', null );
 	}
 
