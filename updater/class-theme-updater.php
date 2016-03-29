@@ -1,8 +1,11 @@
 <?php
+if ( ! class_exists( 'Astoundify_Theme_Updater' ) ) :
 /**
+ * Shims in our premium automatic updates alongside the standard
+ * WordPress.org updates.
  *
+ * @package Astoundify_Theme_Updater
  */
-
 class Astoundify_Theme_Updater {
 
 	/**
@@ -80,7 +83,6 @@ class Astoundify_Theme_Updater {
 		add_action( 'load-update-core.php', array( __CLASS__, 'delete_theme_update_transient' ) );
 		add_action( 'load-themes.php', array( __CLASS__, 'delete_theme_update_transient' ) );
 
-		// @codeCoverageIgnoreEnd
 		// Deferred Download.
 		add_action( 'upgrader_package_options', array( __CLASS__, 'maybe_deferred_download' ), 99 );
 	}
@@ -253,5 +255,6 @@ class Astoundify_Theme_Updater {
 		return $options;
 	}
 }
+endif;
 
 Astoundify_Theme_Updater::instance();

@@ -8,6 +8,7 @@
  * @category API
  */
 
+if ( ! class_exists( 'Astoundify_Envato_Market_API' ) ) :
 /**
  * Creates the Envato API connection.
  *
@@ -324,3 +325,4 @@ class Astoundify_Envato_Market_API {
 		return $this->can_make_request_with_token() ? $this->strings[ 'api-connected' ] : $this->strings[ 'api-disconnected' ];
 	}
 }
+endif;

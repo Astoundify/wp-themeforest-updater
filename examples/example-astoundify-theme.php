@@ -1,8 +1,8 @@
 <?php
 /**
- * Use the drop-in plugin for an Astoundify WordPress theme.
+ * Example for integrating with an Astoundify theme.
  *
- * Create a step in the setup guide and saves the token.
+ * It is up to the theme to implement the token storing and setting. 
  */
 
 // update this to where you add the updater class
@@ -10,8 +10,28 @@ require_once( dirname( __FILE__ ) . '/../updater/class-astoundify-themeforest-up
 
 class Example_Astoundify_Theme_Updates {
 
+	/**
+	 * Envato Market API
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @var object
+	 */
 	public $api;
 
+	/**
+	 * Set up automatic updates for an Astoundify theme.
+	 *
+	 * Sets the token option key, starts the updater (with translated strings) and 
+	 * starts the API once the token filter has been added.
+	 *
+	 * The order these instances are first created is important.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 		// the key our token is stored in
 		$this->option = 'marketify_themeforest_updater_token';
@@ -19,11 +39,11 @@ class Example_Astoundify_Theme_Updates {
 		// start the updater
 		$updater = Astoundify_ThemeForest_Updater::instance();
 		$updater::set_strings( array(
-			'cheating' => 'Cheating?',
-			'no-token' => 'An API token is required.',
-			'api-error' => 'API error.',
-			'api-connected' => 'Connected',
-			'api-disconnected' => 'Disconnected'
+			'cheating' => __( 'Cheating?', 'marketify' ),
+			'no-token' => __( 'An API token is required.', 'marketify' ),
+			'api-error' => __( 'API error.', 'marketify' ),
+			'api-connected' => __( 'Connected', 'marketify' ),
+			'api-disconnected' => __( 'Disconnected', 'marketify' )
 		) );
 
 		// set a filter for the token
@@ -36,10 +56,24 @@ class Example_Astoundify_Theme_Updates {
 		add_action( 'after_setup_theme', array( $this, 'filter_setup_guide' ), -1 );
 	}
 
+	/**
+	 * Get the token stored in our set location.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed
+	 */
 	public function get_token() {
-		return get_option( $this->option );
+		return get_option( $this->option, null );
 	}
 
+	/**
+	 * Filter the setup guide. These need to be hooked in to a very early `after_setup_theme`
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function filter_setup_guide() {
 		add_filter( 'marketify_setup_steps', array( $this, 'add_setup_step' ) );
 		add_filter( 'marketify_setup_step_updates_file', array( $this, 'set_updates_file' ) );
@@ -47,6 +81,14 @@ class Example_Astoundify_Theme_Updates {
 		add_action( 'wp_ajax_marketify_set_token', array( $this, 'set_token' ) );
 	}
 
+	/**
+	 * Add a step to the setup guide.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $steps
+	 * @return array $steps
+	 */
 	public function add_setup_step( $steps ) {
 		$completed = get_option( $this->option, false ) && $this->api->can_make_request_with_token() ? true : false;
 
@@ -61,12 +103,27 @@ class Example_Astoundify_Theme_Updates {
 		return $steps;
 	}
 
+	/**
+	 * Set the file location of this steps content.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $file
+	 * @return string $file
+	 */
 	public function set_updates_file( $file ) {
 		$file = dirname( __FILE__ ) . '/example-astoundify-step-updates.php';
 
 		return $file;
 	}
 
+	/**
+	 * AJAX response when a token is set in the Setup Guide.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function set_token() {
 		check_ajax_referer( 'marketify-add-token', 'security' );
 
@@ -92,4 +149,5 @@ class Example_Astoundify_Theme_Updates {
 	
 }
 
+// autorun
 new Example_Astoundify_Theme_Updates();
