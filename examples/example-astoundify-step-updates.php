@@ -1,6 +1,15 @@
+<?php
+/**
+ */
+
+$api = Astoundify_Envato_Market_API::instance();
+?>
+
 <p>In order to receive automatic updates for your purchase please generate a personal token from ThemeForest.</p>
 
 <p><a href="https://build.envato.com/create-token/?purchase:download=t&purchase:verify=t&purchase:list=t" target="_blank" class="button">Generate a Token</a></p>
+
+<p>Once generated, add the token below:</p>
 
 <form action="post" name="marketify-updates-step" id="marketify-add-update-token">
 	<p>
@@ -11,12 +20,12 @@
 	</p>
 </form>
 
+<p class="api-connection">API Connection: <strong><?php echo esc_attr( $api->connection_status_label() ); ?></strong></p>
+
 <script>
 	jQuery(document).ready(function($) {
 		$( '#marketify-add-update-token' ).on( 'submit', function(e) {
 			e.preventDefault();
-
-			console.log(ajaxurl);
 
 			$form = $(this);
 
@@ -28,7 +37,17 @@
 
 			$.post( ajaxurl, args, function(response) {
 				if ( response.success ) {
-					$form.closest( $( '.not-completed' ).removeClass( 'not-completed' ).addClass( 'is-completed' ).text( 'Completed!' ) );
+					$step = $( '#updates .section-title' );
+					$status = $( '#updates .api-connection strong' );
+
+					if ( response.data.can_request ) {
+						$step.removeClass( 'not-completed' ).addClass( 'is-completed' );
+					} else {
+						$step.removeClass( 'is-completed' ).addClass( 'not-completed' );
+					}
+
+					$step.text( response.data.request_label );
+					$status.text( response.data.request_label );
 				}
 			}, 'json' );
 		});

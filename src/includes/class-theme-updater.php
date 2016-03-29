@@ -75,8 +75,6 @@ class Astoundify_Theme_Updater {
 	 * @codeCoverageIgnore
 	 */
 	private static function init_actions() {
-		$api = Astoundify_Envato_Market_API::instance();
-		var_dump( $api->token );
 		add_filter( 'site_transient_update_themes', array( __CLASS__, 'check_theme_updates' ) );
 		add_filter( 'delete_site_transient_update_themes', array( __CLASS__, 'delete_theme_update_transient' ) );
 		add_action( 'load-update-core.php', array( __CLASS__, 'delete_theme_update_transient' ) );

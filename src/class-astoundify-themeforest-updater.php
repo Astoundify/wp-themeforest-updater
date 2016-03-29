@@ -69,7 +69,9 @@ class Astoundify_ThemeForest_Updater {
 		$defaults = array(
 			'cheating' => 'Cheating?',
 			'no-token' => 'An API token is required.',
-			'api-error' => 'API error.'
+			'api-error' => 'API error.',
+			'api-connected' => 'Connected',
+			'api-disconnected' => 'Disconnected'
 		);
 
 		$strings = wp_parse_args( $strings, $defaults );

@@ -301,6 +301,26 @@ class Astoundify_Envato_Market_API {
 	static private function remove_non_unicode( $retval ) {
 		return preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $retval );
 	}
-}
 
-Astoundify_Envato_Market_API::instance();
+	/**
+	 * See if the current token can make an API request.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean
+	 */
+	public function can_make_request_with_token() {
+		return $this->item( '9602611' ) ? true : false;
+	}
+
+	/**
+	 * Display the API connection status.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function connection_status_label() {
+		return $this->can_make_request_with_token() ? $this->strings[ 'api-connected' ] : $this->strings[ 'api-disconnected' ];
+	}
+}

@@ -7,9 +7,29 @@
 
 class Example_Astoundify_Theme_Updates {
 
+	public $api;
+
 	public function __construct() {
+		// the key our token is stored in
 		$this->option = 'marketify_themeforest_updater_token';
 
+		// start the updater
+		$updater = Astoundify_ThemeForest_Updater::instance();
+		$updater::set_strings( array(
+			'cheating' => 'Cheating?',
+			'no-token' => 'An API token is required.',
+			'api-error' => 'API error.',
+			'api-connected' => 'Connected',
+			'api-disconnected' => 'Disconnected'
+		) );
+
+		// set a filter for the token
+		add_filter( 'astoundify_themeforest_updater', array( $this, 'get_token' ) );
+
+		// init the api so it has a token value
+		$this->api = Astoundify_Envato_Market_API::instance();
+
+		// add interface to admin
 		add_action( 'after_setup_theme', array( $this, 'filter_setup_guide' ), -1 );
 	}
 
@@ -18,7 +38,6 @@ class Example_Astoundify_Theme_Updates {
 	}
 
 	public function filter_setup_guide() {
-		add_filter( 'astoundify_themeforest_updater', array( $this, 'get_token' ) );
 		add_filter( 'marketify_setup_steps', array( $this, 'add_setup_step' ) );
 		add_filter( 'marketify_setup_step_updates_file', array( $this, 'set_updates_file' ) );
 
@@ -26,7 +45,7 @@ class Example_Astoundify_Theme_Updates {
 	}
 
 	public function add_setup_step( $steps ) {
-		$completed = get_option( $this->option, false ) ? true : false;
+		$completed = get_option( $this->option, false ) && $this->api->can_make_request_with_token() ? true : false;
 
 		$step = array(
 			'title' => 'Automatic Updates',
@@ -56,8 +75,13 @@ class Example_Astoundify_Theme_Updates {
 
 		update_option( $this->option, $token );
 
+		// hotswap the token
+		$this->api->token = $token;
+
 		wp_send_json_success( array(
-			'token' => $token
+			'token' => $token,
+			'can_request' => $this->api->can_make_request_with_token(),
+			'request_label' => $this->api->connection_status_label()
 		) );
 
 		exit();
