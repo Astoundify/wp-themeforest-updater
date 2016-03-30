@@ -66,7 +66,7 @@ class Astoundify_ThemeForest_Updater_Unit_Tests_Bootstrap {
 		$_token = getenv( 'TOKEN' );
 
 		if ( empty( $_token ) ) {
-			$path = $_plugin_dir . '/.token';
+			$path = $this->plugin_dir . '/.token';
 
 			if ( ! file_exists( $path ) ) {
 				$_token = '';
