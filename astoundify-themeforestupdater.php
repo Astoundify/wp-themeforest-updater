@@ -3,14 +3,21 @@
  * Plugin Name: ThemeForest Automatic Updater
  * Plugin URI: https://astoundify.com
  * Description: Connect to Envato to enable automatic theme updates. Activating this plugin does nothing.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Astoundify
  * Author URI: http://astoundify.com
  */
 
-/**
- * See the `/examples` directory.
- */
+// load app
+require_once( dirname( __FILE__ ) . '/app/class-astoundify-themeforest-updater.php' );
 
-// uncomment this to test if you have an Astoundify theme activated
-// include_once( dirname( __FILE__ ) . '/examples/example-astoundify-theme.php' );
+/**
+ * Return Astoundify_ThemeForest_Updater instance.
+ *
+ * @since 1.1.0
+ *
+ * @return Astoundify_ThemeForest_Updater
+ */
+function astoundify_themeforestupdater() {
+	return Astoundify_ThemeForest_Updater::instance();
+}
