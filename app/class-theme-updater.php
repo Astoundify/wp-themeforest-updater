@@ -248,7 +248,7 @@ class Astoundify_Theme_Updater {
 			$api = Astoundify_Envato_Market_API::instance();
 
 			if ( $vars['item_id'] ) {
-				$options['package'] = $api->download( $vars['item_id'], $args );
+				$options['package'] = $api->download( $vars['item_id'] );
 			}
 		}
 
