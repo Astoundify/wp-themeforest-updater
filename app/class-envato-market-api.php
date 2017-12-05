@@ -253,7 +253,7 @@ class Astoundify_Envato_Market_API {
 	public function themes( $args = array() ) {
 		$themes = array();
 
-		$url = 'https://api.envato.com/v2/market/buyer/list-purchases?filter_by=wordpress-themes';
+		$url = 'https://api.envato.com/v2/market/buyer/list-purchases?filter_by=wordpress-themes&include_all_item_details=true';
 		$response = $this->request( $url, $args );
 
 		if ( is_wp_error( $response ) || empty( $response ) || empty( $response['results'] ) ) {
