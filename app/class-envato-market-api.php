@@ -315,6 +315,50 @@ class Astoundify_Envato_Market_API {
 	}
 
 	/**
+	 * Check if the current user has purchased the theme.
+	 *
+	 * @since 1.1.1
+	 *
+	 * @param string $item_id The id of the item to check against.
+	 * @return boolean
+	 */
+	public function is_valid_purchase( $id ) {
+		// Try to retrieve the list of purchased themes.
+		$purchased = get_transient( 'atu_purchased_themes' );
+
+		if ( empty( $purchased ) ) {
+			$purchased = $this->themes();
+			// Avoid validating empty arrays.
+			if ( empty( $purchased ) ) {
+				return false;
+			}
+		}
+
+		// Get the installed themes.
+		$installed = get_transient( 'atu_installed_themes' );
+		if ( empty( $installed ) ) {
+			$installed = wp_get_themes();
+		}
+
+		$valid = false;
+
+		foreach ( $installed as $theme_slug => $theme ) {
+			// Skip the common ones.
+			if ( ! array_key_exists( $theme_slug, $purchased ) ) {
+				continue;
+			}
+
+			// Stop when we found our proof.
+			if ( ! empty( $purchased[ $theme_slug ]['id'] ) && $purchased[ $theme_slug ]['id'] === (int)$id ) {
+				$valid = true;
+				break;
+			}
+		}
+
+		return $valid;
+	}
+
+	/**
 	 * Display the API connection status.
 	 *
 	 * @since 1.0.0
