@@ -39,11 +39,11 @@ class Example_Astoundify_Theme_Updates {
 		// start the updater
 		$updater = Astoundify_ThemeForest_Updater::instance();
 		$updater::set_strings( array(
-			'cheating' => __( 'Cheating?', 'marketify' ),
-			'no-token' => __( 'An API token is required.', 'marketify' ),
-			'api-error' => __( 'API error.', 'marketify' ),
-			'api-connected' => __( 'Connected', 'marketify' ),
-			'api-disconnected' => __( 'Disconnected', 'marketify' )
+			'cheating' => esc_html__( 'Cheating?', 'marketify' ),
+			'no-token' => esc_html__( 'An API token is required.', 'marketify' ),
+			'api-error' => esc_html__( 'API error.', 'marketify' ),
+			'api-connected' => esc_html__( 'Connected', 'marketify' ),
+			'api-disconnected' => esc_html__( 'Disconnected', 'marketify' )
 		) );
 
 		// set a filter for the token
